@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+venv/
+env/
+.venv/
+
+# Uploads and runtime files
+uploads/
+*.sqlite3
+*.log
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build
+*.egg-info/
+build/
+dist/
+
+# Media
+*.mp4
+*.mov

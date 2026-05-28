@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="page-section admin-dashboard-page">
+    <div class="dashboard-top">
+        <div>
+            <h1>Tableau de bord des commandes</h1>
+            <p>Visualise toutes les commandes, mets à jour les statuts et exporte les données.</p>
+        </div>
+        <div class="dashboard-link-row">
+            <a class="secondary-button" href="/admin-logout">Se déconnecter</a>
+        </div>
+    </div>
+
+    <form class="dashboard-filters" method="get" action="/admin-dashboard">
+        <div>
+            <label for="search">Recherche nom / email</label>
+            <input type="search" name="search" id="search" value="{{ filters.search }}" placeholder="Rechercher...">
+        </div>
+        <div>
+            <label for="status">Statut</label>
+            <select id="status" name="status">
+                <option value="">Tous les statuts</option>
+                {% for status in statuses %}
+                    <option value="{{ status }}" {% if filters.status == status %}selected{% endif %}>{{ status }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" value="{{ filters.date_iso }}">
+        </div>
+        <div class="filter-actions">
+            <button type="submit" class="primary-button">Appliquer</button>
+            <a class="secondary-button" href="/admin-dashboard">Réinitialiser</a>
+        </div>
+    </form>
+
+    <div class="dashboard-actions">
+        <a class="primary-button" href="/admin-export-csv">Exporter en CSV</a>
+        <p class="dashboard-summary">{{ orders|length }} commande(s) affichée(s)</p>
+    </div>
+
+    <div class="dashboard-table-wrapper">
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom client</th>
+                    <th>Email</th>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Photo</th>
+                    <th>Adresse</th>
+                    <th>Message</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.nom }}</td>
+                        <td>{{ order.email }}</td>
+                        <td>{{ order.product_type }}</td>
+                        <td>{{ order.quantite }}</td>
+                        <td><a href="/uploads/{{ order.photo_filename }}" target="_blank">Voir</a></td>
+                        <td>{{ order.adresse }}</td>
+                        <td>{{ order.message or '-' }}</td>
+                        <td class="status-cell {{ order.status | replace(' ', '-') | lower }}">{{ order.status }}</td>
+                        <td>{{ order.date }}</td>
+                        <td>
+                            <form action="/admin-update-status" method="post" class="status-form">
+                                <input type="hidden" name="order_id" value="{{ order.id }}">
+                                <select name="new_status">
+                                    {% for status in statuses %}
+                                        <option value="{{ status }}" {% if order.status == status %}selected{% endif %}>{{ status }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="tiny-button">Mettre à jour</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
