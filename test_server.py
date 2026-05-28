@@ -11,7 +11,7 @@ app.secret_key = "auto-print-secret"
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 MAX_CONTENT_LENGTH = 10 * 1024 * 1024
-ADMIN_PASSWORD = "AutoPrint2026"
+ADMIN_PASSWORD = "2026080315"
 STATUSES = ["En attente", "En impression", "Prête à envoyer", "Envoyée"]
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
