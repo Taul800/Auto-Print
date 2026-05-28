@@ -35,7 +35,9 @@ Ce projet est une application Flask (`test_server.py`) avec des templates Jinja 
 - Crée un compte sur https://render.com
 - Ajoute un nouveau service Web
 - Pointez-le sur ton dépôt GitHub
-- Indique `gunicorn test_server:app` comme commande de démarrage
+- Render détectera le fichier `render.yaml` et utilisera les paramètres suivants :
+  - `buildCommand`: `pip install -r requirements.txt`
+  - `startCommand`: `gunicorn test_server:app`
 - Render installera `requirements.txt` automatiquement.
 
 ### Railway / PythonAnywhere

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: Auto-Print
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn test_server:app
+    envVars:
+      - key: PORT
+        sync: true
